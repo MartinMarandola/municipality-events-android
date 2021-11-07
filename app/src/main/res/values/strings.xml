@@ -9,4 +9,10 @@
 
     <string name="hello_first_fragment">Hello first fragment</string>
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
+    <string name ="signIn">Iniciar sesión</string>
+    <string name="userNameText">Usuario</string>
+    <string name="passwordText">Contraseña</string>
+    <string name="login">Ingresar</string>
+    <string name="forgotpassword">¿Olvidó su contraseña?</string>
+    <string name="signup">¿Aún no es usuario? Registrarse </string>
 </resources>
