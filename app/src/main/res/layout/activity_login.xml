@@ -72,9 +72,9 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/signUp"
+        android:id="@+id/signUpid"
         android:layout_below="@id/forgotPassword"
-        android:text="@string/signup"
+        android:text="@string/signupLogin"
         android:textColor="@color/white"
         android:layout_centerHorizontal="true"
         android:layout_margin="20dp"/>
