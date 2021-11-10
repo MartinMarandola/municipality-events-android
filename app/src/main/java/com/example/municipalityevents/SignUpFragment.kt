@@ -7,7 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
-import com.example.municipalityevents.databinding.FragmentSecondBinding
+import com.example.municipalityevents.databinding.FragmentSignupBinding
 import android.text.TextUtils
 import android.util.Log
 import android.widget.EditText
@@ -23,9 +23,9 @@ import org.json.JSONObject
 /**
  * A simple [Fragment] subclass as the second destination in the navigation.
  */
-class SecondFragment : Fragment() {
+class SignUpFragment : Fragment() {
 
-    private var _binding: FragmentSecondBinding? = null
+    private var _binding: FragmentSignupBinding? = null
 
     // This property is only valid between onCreateView and
     // onDestroyView.
@@ -34,9 +34,9 @@ class SecondFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
 
-        _binding = FragmentSecondBinding.inflate(inflater, container, false)
+        _binding = FragmentSignupBinding.inflate(inflater, container, false)
         return binding.root
 
     }
@@ -82,7 +82,7 @@ class SecondFragment : Fragment() {
         if(isEmpty(binding.password)) {
             binding.password.error = "Campo requerido"
             result = false
-        } else if(checkLength(binding.password, 6, 20)){
+        } else if(checkLength(binding.password)){
             binding.password.error = "La contraseña debe estar compuesta entre 6 y 20 carácteres"
             result = false
         }
@@ -105,7 +105,7 @@ class SecondFragment : Fragment() {
         return result
     }
 
-    private fun checkLength(str: EditText, min: Int, max: Int): Boolean {
+    private fun checkLength(str: EditText, min: Int = 6, max: Int = 20): Boolean {
         return str.length() < min || str.length() > max
     }
 
@@ -138,10 +138,10 @@ class SecondFragment : Fragment() {
             Request.Method.POST, postUrl, postData,
             { response ->
                 Log.e("RESPONSE", response.toString())
-                findNavController().navigate(R.id.action_SecondFragment_to_FirstFragment) }
+                findNavController().navigate(R.id.action_SignUpFragment_to_LoginFragment) }
         ) { error ->
             error.printStackTrace()
-            Toast.makeText(activity as Context,"Error",Toast.LENGTH_SHORT).show();
+            Toast.makeText(activity as Context,"Error",Toast.LENGTH_SHORT).show()
         }
 
         jsonObjectRequest.retryPolicy = DefaultRetryPolicy(
