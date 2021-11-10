@@ -13,9 +13,10 @@ class LoginActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
 
-        var username = findViewById<TextView>(R.id.username);
-        var password = findViewById<TextView>(R.id.password);
-        var loginbtn = findViewById<MaterialButton>(R.id.loginButton);
+        var username = findViewById<TextView>(R.id.username)
+        var password = findViewById<TextView>(R.id.password)
+        var loginbtn = findViewById<MaterialButton>(R.id.loginButton)
+        var navButtonSignUp = findViewById<MaterialButton>(R.id.navButtonSignUp)
 
         //Hardcoded login
 
@@ -29,6 +30,10 @@ class LoginActivity : AppCompatActivity() {
             }
 
         })
+
+        navButtonSignUp.setOnClickListener{
+            Toast.makeText(this, "Button Pressed", Toast.LENGTH_SHORT).show()
+        }
 
     }
 }
