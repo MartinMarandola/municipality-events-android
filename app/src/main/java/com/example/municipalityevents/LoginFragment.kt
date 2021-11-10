@@ -110,7 +110,3 @@ class LoginFragment : Fragment() {
         _binding = null
     }
 }
-
-/*        <activity
-            android:name=".LoginActivity"
-            android:exported="true" />*/
