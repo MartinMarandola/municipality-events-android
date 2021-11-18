@@ -1,4 +1,4 @@
-package com.example.municipalityevents
+package com.ar.municipalityevents
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
@@ -6,9 +6,10 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
-import com.example.municipalityevents.databinding.ActivityMainBinding
+import com.ar.municipalityevents.R
+import com.ar.municipalityevents.databinding.ActivityMainBinding
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity()/*, DatePickerDialog.OnDateSetListener*/ {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityMainBinding
@@ -25,6 +26,7 @@ class MainActivity : AppCompatActivity() {
         appBarConfiguration = AppBarConfiguration(navController.graph)
         setupActionBarWithNavController(navController, appBarConfiguration)
 
+        //val datePicker: DialogFragment = DatePickerFragment()
     }
 
     override fun onSupportNavigateUp(): Boolean {
@@ -32,4 +34,15 @@ class MainActivity : AppCompatActivity() {
         return navController.navigateUp(appBarConfiguration)
                 || super.onSupportNavigateUp()
     }
+
+
+    /*override fun onDateSet(view: DatePicker?, year: Int, month: Int, dayOfMonth: Int) {
+        val c = Calendar.getInstance();
+        c.set(Calendar.YEAR, year)
+        c.set(Calendar.MONTH, month)
+        c.set(Calendar.DAY_OF_MONTH, dayOfMonth)
+
+        val currentDateString = DateFormat.getDateInstance().format(c.time) // date selected
+
+    }*/
 }

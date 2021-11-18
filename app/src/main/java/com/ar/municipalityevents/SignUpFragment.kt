@@ -1,22 +1,22 @@
-package com.example.municipalityevents
+package com.ar.municipalityevents
 
 import android.content.Context
 import android.os.Bundle
-import androidx.fragment.app.Fragment
+import android.text.TextUtils
+import android.util.Log
+import android.util.Patterns
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.navigation.fragment.findNavController
-import com.example.municipalityevents.databinding.FragmentSignupBinding
-import android.text.TextUtils
-import android.util.Log
 import android.widget.EditText
-import android.util.Patterns
 import android.widget.Toast
+import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.android.volley.DefaultRetryPolicy
 import com.android.volley.Request
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
+import com.ar.municipalityevents.databinding.FragmentSignupBinding
 import org.json.JSONException
 import org.json.JSONObject
 

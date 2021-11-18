@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.municipalityevents">
+    package="com.ar.municipalityevents">
 
     <uses-permission android:name="android.permission.INTERNET"/>
     <application
@@ -23,6 +23,11 @@
         </activity>
         <activity
             android:name=".MainActivity"
+            android:exported="true"
+            android:label="@string/app_name"
+            android:theme="@style/Theme.MunicipalityEvents.NoActionBar" />
+        <activity
+            android:name=".CalendarActivity"
             android:exported="true"
             android:label="@string/app_name"
             android:theme="@style/Theme.MunicipalityEvents.NoActionBar" />
