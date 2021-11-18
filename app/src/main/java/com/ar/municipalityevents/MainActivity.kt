@@ -6,10 +6,9 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
-import com.ar.municipalityevents.R
 import com.ar.municipalityevents.databinding.ActivityMainBinding
 
-class MainActivity : AppCompatActivity()/*, DatePickerDialog.OnDateSetListener*/ {
+class MainActivity : AppCompatActivity() {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityMainBinding
@@ -26,7 +25,6 @@ class MainActivity : AppCompatActivity()/*, DatePickerDialog.OnDateSetListener*/
         appBarConfiguration = AppBarConfiguration(navController.graph)
         setupActionBarWithNavController(navController, appBarConfiguration)
 
-        //val datePicker: DialogFragment = DatePickerFragment()
     }
 
     override fun onSupportNavigateUp(): Boolean {
@@ -34,15 +32,4 @@ class MainActivity : AppCompatActivity()/*, DatePickerDialog.OnDateSetListener*/
         return navController.navigateUp(appBarConfiguration)
                 || super.onSupportNavigateUp()
     }
-
-
-    /*override fun onDateSet(view: DatePicker?, year: Int, month: Int, dayOfMonth: Int) {
-        val c = Calendar.getInstance();
-        c.set(Calendar.YEAR, year)
-        c.set(Calendar.MONTH, month)
-        c.set(Calendar.DAY_OF_MONTH, dayOfMonth)
-
-        val currentDateString = DateFormat.getDateInstance().format(c.time) // date selected
-
-    }*/
 }

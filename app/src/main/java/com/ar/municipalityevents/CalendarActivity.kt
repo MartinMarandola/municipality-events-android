@@ -33,4 +33,16 @@ class CalendarActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener
         c[Calendar.MONTH] = monthOfYear
         c[Calendar.DAY_OF_MONTH] = dayOfMonth
     }
+
+    //val datePicker: DialogFragment = DatePickerFragment()
+
+    /*override fun onDateSet(view: DatePicker?, year: Int, month: Int, dayOfMonth: Int) {
+      val c = Calendar.getInstance();
+      c.set(Calendar.YEAR, year)
+      c.set(Calendar.MONTH, month)
+      c.set(Calendar.DAY_OF_MONTH, dayOfMonth)
+
+      val currentDateString = DateFormat.getDateInstance().format(c.time) // date selected
+
+  }*/
 }
