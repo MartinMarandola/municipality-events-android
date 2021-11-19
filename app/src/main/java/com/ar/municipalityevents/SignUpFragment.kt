@@ -2,13 +2,10 @@ package com.ar.municipalityevents
 
 import android.content.Context
 import android.os.Bundle
-import android.text.TextUtils
 import android.util.Log
-import android.util.Patterns
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.EditText
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
@@ -17,14 +14,17 @@ import com.android.volley.Request
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
 import com.ar.municipalityevents.databinding.FragmentSignupBinding
+import com.ar.municipalityevents.service.register.SignUpContract
+import com.ar.municipalityevents.service.register.SignUpService
 import org.json.JSONException
 import org.json.JSONObject
 
 /**
  * A simple [Fragment] subclass as the second destination in the navigation.
  */
-class SignUpFragment : Fragment() {
+class SignUpFragment : Fragment(), SignUpContract.View {
 
+    lateinit var service: SignUpService
     private var _binding: FragmentSignupBinding? = null
 
     // This property is only valid between onCreateView and
@@ -35,7 +35,8 @@ class SignUpFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-
+        service = SignUpService()
+        service.attachView(this)
         _binding = FragmentSignupBinding.inflate(inflater, container, false)
         return binding.root
 
@@ -47,9 +48,7 @@ class SignUpFragment : Fragment() {
         binding.date.setOnClickListener {showDatePickerDialog()}
 
         binding.buttonSignup.setOnClickListener {
-            if (checkDataEntered()){
-                signupUser()
-            }
+           this.signUp()
         }
     }
 
@@ -71,90 +70,55 @@ class SignUpFragment : Fragment() {
 
     }
 
-    private fun checkDataEntered(): Boolean{
-        var result = true
+    override fun signUp() {
+        val email = binding.email.text.toString()
+        val password = binding.password.text.toString()
+        val name = binding.name.text.toString().trim()
+        val surname = binding.surname.text.toString().trim()
+        val date = binding.date.text.toString()
+        val country = binding.country.text.toString().trim()
 
-        if (!isEmail(binding.email)) {
+        if(service.checkEmail(binding.email)) {
             binding.email.error = "Campo requerido"
-            result = false
         }
-
-        if(isEmpty(binding.password)) {
-            binding.password.error = "Campo requerido"
-            result = false
-        } else if(checkLength(binding.password)){
-            binding.password.error = "La contraseña debe estar compuesta entre 6 y 20 carácteres"
-            result = false
-        }
-
-        if (isEmpty(binding.name)) {
+        if(service.checkString(name)){
             binding.name.error = "Campo requerido"
-            result = false
         }
-
-        if (isEmpty(binding.surname)) {
+        if(service.checkString(surname)) {
             binding.surname.error = "Campo requerido"
-            result = false
         }
-
-        if (isEmpty(binding.date)) {
+        if(service.checkString(date)){
             binding.date.error = "Campo requerido"
-            result = false
+        }
+        if(service.checkString(country)){
+            binding.country.error = "Campo requerido"
+        }
+        if(service.checkString(password)){
+            binding.password.error = "Campo requerido"
+        }else if (service.checkLength(binding.password)){
+            binding.password.error = "La contraseña debe tener entr 6 y 20 caracteres"
         }
 
-        return result
-    }
-
-    private fun checkLength(str: EditText, min: Int = 6, max: Int = 20): Boolean {
-        return str.length() < min || str.length() > max
-    }
-
-    private fun isEmpty(text: EditText): Boolean {
-        val str: CharSequence = text.text.toString()
-        return TextUtils.isEmpty(str)
-    }
-
-    private fun isEmail(text: EditText): Boolean {
-        val email: CharSequence = text.text.toString()
-        return !TextUtils.isEmpty(email) && Patterns.EMAIL_ADDRESS.matcher(email).matches()
-    }
-
-    private fun signupUser() {
-        val postUrl = "http://10.0.2.2:3000/users/signup"
-        val requestQueue = Volley.newRequestQueue(activity as Context)
-        val postData = JSONObject()
-        try {
-            postData.put("email", binding.email.text.toString() )
-            postData.put("password", binding.password.text.toString())
-            postData.put("name", binding.name.text.toString())
-            postData.put("surname", binding.surname.text.toString())
-            postData.put("date", binding.date.text.toString())
-            postData.put("country", binding.country.text.toString())
-        } catch (e: JSONException) {
-            e.printStackTrace()
-        }
-
-        val jsonObjectRequest = JsonObjectRequest(
-            Request.Method.POST, postUrl, postData,
-            { response ->
-                Log.e("RESPONSE", response.toString())
-                findNavController().navigate(R.id.action_SignUpFragment_to_LoginFragment) }
-        ) { error ->
-            error.printStackTrace()
-            Toast.makeText(activity as Context,"Error",Toast.LENGTH_SHORT).show()
-        }
-
-        jsonObjectRequest.retryPolicy = DefaultRetryPolicy(
-            0,
-            DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
-            DefaultRetryPolicy.DEFAULT_BACKOFF_MULT
-        )
-
-        requestQueue.add(jsonObjectRequest)
+        service.signUp(email, password, name, surname, date, country, activity as Context)
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    override fun navigateToLogin() {
+        findNavController().navigate(R.id.action_SignUpFragment_to_LoginFragment)
+    }
+    override fun showProgress() {
+        TODO("Not yet implemented")
+    }
+
+    override fun hideProgress() {
+        TODO("Not yet implemented")
+    }
+
+    override fun showMessage(msg: String) {
+        Toast.makeText(activity as Context,msg,Toast.LENGTH_SHORT).show()
     }
 }

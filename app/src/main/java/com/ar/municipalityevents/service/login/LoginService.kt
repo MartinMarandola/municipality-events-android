@@ -22,7 +22,7 @@ class LoginService() : LoginContract.Service{
         this.loginUser(email, password, context)
         if(view!= null){
           //  view?.hideProgressBar()
-            view?.navigateToCalendar()
+
         }
     }
 
@@ -46,6 +46,7 @@ class LoginService() : LoginContract.Service{
             { response ->
                 Log.e("RESPONSE", response.toString())
                 view?.showMessage("LOGIN SUCCESSFUL")
+                view?.navigateToCalendar()
             }
         ) { error ->
             error.printStackTrace()
