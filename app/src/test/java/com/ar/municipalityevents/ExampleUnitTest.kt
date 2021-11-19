@@ -1,4 +1,4 @@
-package com.example.municipalityevents
+package com.ar.municipalityevents
 
 import org.junit.Test
 
