@@ -13,7 +13,6 @@ import com.android.volley.VolleyError
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
 import com.ar.municipalityevents.dto.Event
-import com.ar.municipalityevents.service.calendar.CalendarService
 import com.ar.municipalityevents.translator.EventTranslator
 import org.json.JSONException
 import org.json.JSONObject
@@ -21,7 +20,6 @@ import kotlin.collections.ArrayList
 
 class CalendarActivity : AppCompatActivity() {
 
-    lateinit var service: CalendarService
     private lateinit var eventList: ListView
     private lateinit var calendar: CalendarView
     private lateinit var queue: RequestQueue
@@ -34,7 +32,6 @@ class CalendarActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_calendar)
 
-        service = CalendarService()
         linearLayout = findViewById(R.id.calendar)
         calendar = linearLayout.findViewById(R.id.calendarView)
         eventList = linearLayout.findViewById(R.id.dailyView1)
