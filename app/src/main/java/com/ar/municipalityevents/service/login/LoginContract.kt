@@ -12,6 +12,7 @@ interface LoginContract {
         fun hideProgressBar()
         fun navigateToCalendar()
         fun navigateToRegister()
+        fun saveToken(tokenValue: String)
     }
 
     interface Service{

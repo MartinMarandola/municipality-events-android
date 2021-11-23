@@ -10,7 +10,10 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.ar.municipalityevents.databinding.FragmentLoginBinding
 import android.content.Intent
+import android.content.SharedPreferences
+import android.util.Log
 import android.widget.ProgressBar
+import com.ar.municipalityevents.MunicipalityEventsApplication.Companion.prefs
 import com.ar.municipalityevents.service.login.LoginContract
 import com.ar.municipalityevents.service.login.LoginService
 
@@ -22,6 +25,8 @@ class LoginFragment : Fragment(), LoginContract.View {
 
     lateinit var service: LoginService
     private var _binding: FragmentLoginBinding? = null
+    lateinit var preferences: SharedPreferences
+    lateinit var editor: SharedPreferences.Editor
 
     // This property is only valid between onCreateView and
     // onDestroyView.
@@ -31,6 +36,8 @@ class LoginFragment : Fragment(), LoginContract.View {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        preferences = requireActivity().getPreferences(Context.MODE_PRIVATE)
+        editor = preferences.edit()
         service = LoginService()
         service.attachView(this)
         _binding = FragmentLoginBinding.inflate(inflater, container, false)
@@ -81,5 +88,10 @@ class LoginFragment : Fragment(), LoginContract.View {
 
     override fun hideProgressBar() {
         binding.progressBarSignIn.visibility = View.GONE
+    }
+
+    override fun saveToken(token: String) {
+        prefs.saveToken(token)
+        Log.e("TEST", prefs.getToken())
     }
 }

@@ -45,6 +45,7 @@ class LoginService() : LoginContract.Service{
             Request.Method.POST, postUrl, postData,
             { response ->
                 Log.e("RESPONSE", response.toString())
+                view?.saveToken(response.getString("token"))
                 view?.showMessage("LOGIN SUCCESSFUL")
                 view?.navigateToCalendar()
             }
