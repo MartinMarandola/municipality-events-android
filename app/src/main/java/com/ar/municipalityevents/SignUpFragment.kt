@@ -2,22 +2,15 @@ package com.ar.municipalityevents
 
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
-import com.android.volley.DefaultRetryPolicy
-import com.android.volley.Request
-import com.android.volley.toolbox.JsonObjectRequest
-import com.android.volley.toolbox.Volley
 import com.ar.municipalityevents.databinding.FragmentSignupBinding
 import com.ar.municipalityevents.service.register.SignUpContract
 import com.ar.municipalityevents.service.register.SignUpService
-import org.json.JSONException
-import org.json.JSONObject
 
 /**
  * A simple [Fragment] subclass as the second destination in the navigation.
@@ -96,7 +89,7 @@ class SignUpFragment : Fragment(), SignUpContract.View {
         if(service.checkString(password)){
             binding.password.error = "Campo requerido"
         }else if (service.checkLength(binding.password)){
-            binding.password.error = "La contraseña debe tener entr 6 y 20 caracteres"
+            binding.password.error = "La contraseña debe tener entre 6 y 20 caracteres"
         }
 
         service.signUp(email, password, name, surname, date, country, activity as Context)
