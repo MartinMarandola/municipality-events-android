@@ -96,7 +96,7 @@ class SignUpFragment : Fragment(), SignUpContract.View {
         if(service.checkString(password)){
             binding.password.error = "Campo requerido"
         }else if (service.checkLength(binding.password)){
-            binding.password.error = "La contraseña debe tener entr 6 y 20 caracteres"
+            binding.password.error = "La contraseña debe tener entre 6 y 20 caracteres"
         }
 
         service.signUp(email, password, name, surname, date, country, activity as Context)

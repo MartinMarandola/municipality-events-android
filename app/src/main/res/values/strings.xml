@@ -22,5 +22,6 @@
     <string name="login">Ingresar</string>
     <string name="forgotpassword">¿Olvidó su contraseña?</string>
     <string name="signupLogin">¿Aún no es usuario? Registrarse </string>
+    <string name="btn_profile">Comprar entradas</string>
 </resources>
 

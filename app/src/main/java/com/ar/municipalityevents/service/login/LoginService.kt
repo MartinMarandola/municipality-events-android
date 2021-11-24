@@ -44,7 +44,6 @@ class LoginService() : LoginContract.Service{
         val jsonObjectRequest = JsonObjectRequest(
             Request.Method.POST, postUrl, postData,
             { response ->
-                Log.e("RESPONSE", response.toString())
                 view?.saveToken(response.getString("token"))
                 view?.showMessage("LOGIN SUCCESSFUL")
                 view?.navigateToCalendar()
