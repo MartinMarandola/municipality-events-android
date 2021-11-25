@@ -100,5 +100,5 @@ class CalendarActivity : AppCompatActivity() {
         binding.rvEvent.layoutManager = LinearLayoutManager(this)
         binding.rvEvent.adapter = adapter
     }
-
+    
 }
