@@ -26,6 +26,12 @@ class CalendarActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         initRecyclerView()
+
+        val dateFormat = SimpleDateFormat("yyyy/MM/dd")
+        val currentDate = dateFormat.format(Date())
+        query = "year=${currentDate.slice(0..3)}&month=${currentDate.slice(5..6)}&day=${currentDate.slice(8..9)}"
+        getEvents(query)
+
         binding.calendarView.setOnDateChangeListener { calendarView, year, month, day ->
             query = if(day < 10 && month+1 < 10){
                 "year=$year&month=0${month+1}&day=0$day"
@@ -81,7 +87,7 @@ class CalendarActivity : AppCompatActivity() {
 
     private fun getDateTime(s: String): String {
         return try {
-            val sdf = SimpleDateFormat("dd/MM/yyyy")
+            val sdf = SimpleDateFormat("dd/MM/yyyy, HH:mm")
             val netDate = Date(s.toLong())
             sdf.format(netDate)
         } catch (e: Exception) {

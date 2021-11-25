@@ -6,11 +6,12 @@ import android.widget.EditText
 interface SignUpContract {
 
     interface View{
-        fun navigateToLogin()
         fun signUp()
         fun showProgress()
         fun hideProgress()
         fun showMessage(msg: String)
+        fun saveToken(token: String)
+        fun navigateToCalendar()
     }
 
     interface Service{

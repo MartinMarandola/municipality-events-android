@@ -28,8 +28,7 @@ class EventAdapter(val events: List<Event>):RecyclerView.Adapter<EventAdapter.Ev
 
         fun render(event: Event){
             binding.eventName.text = event.name
-            binding.eventDescription.text = event.description
-            binding.eventPrice.text = event.price.toString()
+            binding.eventSchedule.text = "Horario: ${event.dateTime.slice(12..16)}hs."
             view.setOnClickListener { view.context.startActivity(Intent(view.context, ProfileEventActivity::class.java).putExtra("event", event))
             }
         }

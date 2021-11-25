@@ -10,9 +10,6 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.ar.municipalityevents.databinding.FragmentLoginBinding
 import android.content.Intent
-import android.content.SharedPreferences
-import android.util.Log
-import android.widget.ProgressBar
 import com.ar.municipalityevents.MunicipalityEventsApplication.Companion.prefs
 import com.ar.municipalityevents.service.login.LoginContract
 import com.ar.municipalityevents.service.login.LoginService

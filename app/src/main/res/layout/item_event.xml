@@ -3,32 +3,25 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="100dp"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="@drawable/custom_background">
 
     <TextView
         android:id="@+id/eventName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
         android:textSize="21sp"
         android:layout_gravity="center_horizontal"
         tools:text="Title"/>
 
     <TextView
-        android:id="@+id/eventDescription"
+        android:id="@+id/eventSchedule"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="18sp"
         android:layout_marginTop="8dp"
         android:layout_gravity="center_horizontal"
-        tools:text="Description"/>
-
-    <TextView
-        android:id="@+id/eventPrice"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="15sp"
-        android:layout_marginTop="8dp"
-        android:layout_gravity="center_horizontal"
-        tools:text="Price"/>
+        tools:text="Horario"/>
 
 </LinearLayout>
