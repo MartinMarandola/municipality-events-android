@@ -1,7 +1,6 @@
 package com.ar.municipalityevents.service.login
 
 import android.content.Context
-import android.util.Log
 import com.android.volley.DefaultRetryPolicy
 import com.android.volley.Request
 import com.android.volley.toolbox.JsonObjectRequest
@@ -44,8 +43,7 @@ class LoginService() : LoginContract.Service{
         val jsonObjectRequest = JsonObjectRequest(
             Request.Method.POST, postUrl, postData,
             { response ->
-                Log.e("RESPONSE", response.toString())
-                view?.showMessage("LOGIN SUCCESSFUL")
+                view?.saveToken(response.getString("token"))
                 view?.navigateToCalendar()
             }
         ) { error ->

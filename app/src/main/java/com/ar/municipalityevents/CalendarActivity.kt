@@ -1,96 +1,104 @@
 package com.ar.municipalityevents
 
-import android.os.Build
 import android.os.Bundle
-import android.widget.ArrayAdapter
-import android.widget.CalendarView
-import android.widget.LinearLayout
-import android.widget.ListView
-import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
-import com.android.volley.RequestQueue
-import com.android.volley.VolleyError
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.android.volley.DefaultRetryPolicy
+import com.android.volley.Request
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
+import com.ar.municipalityevents.databinding.ActivityCalendarBinding
 import com.ar.municipalityevents.dto.Event
-import com.ar.municipalityevents.translator.EventTranslator
 import org.json.JSONException
-import org.json.JSONObject
-import kotlin.collections.ArrayList
+import java.text.SimpleDateFormat
+import java.util.*
 
 class CalendarActivity : AppCompatActivity() {
 
-    private lateinit var eventList: ListView
-    private lateinit var calendar: CalendarView
-    private lateinit var queue: RequestQueue
-    private val url = "http://10.0.2.2:3000/events"
-    private lateinit var eventDataList: List<String>
-    private lateinit var linearLayout: LinearLayout
+    private lateinit var binding: ActivityCalendarBinding
+    private lateinit var query: String
+    private lateinit var adapter: EventAdapter
+    private val events = mutableListOf<Event>()
 
-    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_calendar)
+        binding = ActivityCalendarBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
-        linearLayout = findViewById(R.id.calendar)
-        calendar = linearLayout.findViewById(R.id.calendarView)
-        eventList = linearLayout.findViewById(R.id.dailyView1)
-        queue = Volley.newRequestQueue(this)
-        eventDataList = ArrayList()
+        initRecyclerView()
 
-        this.getDaySelected()
-    }
+        val dateFormat = SimpleDateFormat("yyyy/MM/dd")
+        val currentDate = dateFormat.format(Date())
+        query = "year=${currentDate.slice(0..3)}&month=${currentDate.slice(5..6)}&day=${currentDate.slice(8..9)}"
+        getEvents(query)
 
-    @RequiresApi(Build.VERSION_CODES.O)
-    private fun getDaySelected(){
-        calendar.setOnDateChangeListener { view, year, month, dayOfMonth ->
-            if(!this.eventDataList.isNullOrEmpty()) this.eventDataList = arrayListOf()
-            this.getApiData(month.plus(1).toString(), year.toString(), dayOfMonth)
-        }
-    }
-
-
-    @RequiresApi(Build.VERSION_CODES.O)
-    private fun getApiData(month: String, year: String, dayOfMonth: Int) {
-        val getEventsUrl: String = getFormat(month, year)
-        val request = JsonObjectRequest(
-            getEventsUrl,
-            { response: JSONObject? ->
-                if (response!!.length() > 0) this.setEvents(response, dayOfMonth)
-                this.setAdapter()
+        binding.calendarView.setOnDateChangeListener { calendarView, year, month, day ->
+            query = if(day < 10 && month+1 < 10){
+                "year=$year&month=0${month+1}&day=0$day"
+            }else if (day < 10){
+                "year=$year&month=${month+1}&day=0$day"
+            }else if (month+1 < 10){
+                "year=$year&month=0${month+1}&day=$day"
+            }else{
+                "year=$year&month=${month+1}&day=$day"
             }
-        ) { error: VolleyError? ->
-
+            getEvents(query)
         }
-
-        queue.add(request)
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
-    private fun setEvents(apiResponse: JSONObject, dayOfMonth: Int): List<Event> {
-        val result: MutableList<Event> = ArrayList()
-        val resultList = apiResponse.getJSONArray("events")
-        for (i in 0 until resultList.length()) {
-            try {
-                val e = resultList.getJSONObject(i)
-                val event = EventTranslator.toDto(e)
+    private fun getEvents(query: String){
+        val url = "http://10.0.2.2:3000/events?$query"
+        val requestQueue = Volley.newRequestQueue(this)
 
-                if (event.dateTime?.dayOfMonth == dayOfMonth) {
-                    result.add(event)
-                    event.name?.let { (eventDataList as ArrayList<String>).add(it) }
+
+        val jsonObjectRequest = JsonObjectRequest(
+            Request.Method.GET, url, null,
+            { response ->
+                val jsonArray = response.getJSONArray("events")
+                events.clear()
+                for(i in 0 until jsonArray.length()){
+                    try {
+                        val responseObj = jsonArray.getJSONObject(i)
+
+                        val name = responseObj.getString("eventName")
+                        val dateTime = getDateTime(responseObj.getString("eventDateTime"))
+                        val image = responseObj.getString("image")
+                        val description = responseObj.getString("eventDescription")
+                        val price = responseObj.getString("price").toBigDecimal()
+                        val url = responseObj.getString("url")
+
+                        events.add(Event(name, dateTime, image, description, price, url))
+                    } catch (e: JSONException){
+                        e.printStackTrace()
+                    }
                 }
-            } catch (e: JSONException) {
-                e.printStackTrace()
+                adapter.notifyDataSetChanged()
             }
+        ) { error -> error.printStackTrace() }
+
+        jsonObjectRequest.retryPolicy = DefaultRetryPolicy(
+            0,
+            DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+            DefaultRetryPolicy.DEFAULT_BACKOFF_MULT
+        )
+
+        requestQueue.add(jsonObjectRequest)
+    }
+
+    private fun getDateTime(s: String): String {
+        return try {
+            val sdf = SimpleDateFormat("dd/MM/yyyy, HH:mm")
+            val netDate = Date(s.toLong())
+            sdf.format(netDate)
+        } catch (e: Exception) {
+            e.toString()
         }
-        return result
     }
 
-    private fun getFormat(month: String, year: String): String {
-        return String.format("$url?year=%s&month=%s", year, month)
+    private fun initRecyclerView(){
+        adapter = EventAdapter(events)
+        binding.rvEvent.layoutManager = LinearLayoutManager(this)
+        binding.rvEvent.adapter = adapter
     }
-
-    private fun setAdapter(){
-        eventList.adapter = ArrayAdapter(this, R.layout.support_simple_spinner_dropdown_item, eventDataList)
-    }
+    
 }

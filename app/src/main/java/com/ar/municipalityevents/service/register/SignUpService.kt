@@ -1,7 +1,6 @@
 package com.ar.municipalityevents.service.register
 
 import android.content.Context
-import android.util.Log
 import android.util.Patterns
 import android.widget.EditText
 import com.android.volley.DefaultRetryPolicy
@@ -66,8 +65,8 @@ class SignUpService : SignUpContract.Service{
         val jsonObjectRequest = JsonObjectRequest(
             Request.Method.POST, postUrl, postData,
             { response ->
-                Log.e("RESPONSE", response.toString())
-                view?.navigateToLogin() }
+                view?.saveToken(response.getString("token"))
+                view?.navigateToCalendar() }
         ) { error ->
             error.printStackTrace()
             view?.showMessage("Error")

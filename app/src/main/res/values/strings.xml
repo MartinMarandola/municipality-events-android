@@ -17,10 +17,11 @@
     <string name="email">Email</string>
     <string name="date">Fecha de nacimiento</string>
     <string name="signIn">Iniciar sesión</string>
-    <string name="signUp">Registrarse</string>
+    <string name="signUp">Registro</string>
     <string name="passwordText">Contraseña</string>
     <string name="login">Ingresar</string>
     <string name="forgotpassword">¿Olvidó su contraseña?</string>
     <string name="signupLogin">¿Aún no es usuario? Registrarse </string>
+    <string name="btn_profile">Comprar entradas</string>
 </resources>
 

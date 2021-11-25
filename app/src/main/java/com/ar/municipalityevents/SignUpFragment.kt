@@ -1,13 +1,13 @@
 package com.ar.municipalityevents
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.navigation.fragment.findNavController
 import com.ar.municipalityevents.databinding.FragmentSignupBinding
 import com.ar.municipalityevents.service.register.SignUpContract
 import com.ar.municipalityevents.service.register.SignUpService
@@ -100,8 +100,8 @@ class SignUpFragment : Fragment(), SignUpContract.View {
         _binding = null
     }
 
-    override fun navigateToLogin() {
-        findNavController().navigate(R.id.action_SignUpFragment_to_LoginFragment)
+    override fun navigateToCalendar() {
+        startActivity(Intent(activity as Context, CalendarActivity::class.java))
     }
     override fun showProgress() {
         TODO("Not yet implemented")
@@ -113,5 +113,9 @@ class SignUpFragment : Fragment(), SignUpContract.View {
 
     override fun showMessage(msg: String) {
         Toast.makeText(activity as Context,msg,Toast.LENGTH_SHORT).show()
+    }
+
+    override fun saveToken(token: String) {
+        MunicipalityEventsApplication.prefs.saveToken(token)
     }
 }

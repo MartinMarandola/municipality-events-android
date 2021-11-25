@@ -26,7 +26,7 @@
 
     </RelativeLayout>
 
-    <ListView
+<!--    <ListView
         android:id="@+id/dailyView1"
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -35,6 +35,12 @@
         android:layout_marginRight="5dp"
         android:layout_weight="0.5"
         android:clickable="true"
-        android:focusable="true" />
+        android:focusable="true" />-->
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvEvent"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.5" />
 
 </LinearLayout>
