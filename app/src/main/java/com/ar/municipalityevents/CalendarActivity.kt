@@ -65,9 +65,9 @@ class CalendarActivity : AppCompatActivity() {
                         val image = responseObj.getString("image")
                         val description = responseObj.getString("eventDescription")
                         val price = responseObj.getString("price").toBigDecimal()
-                        val url = responseObj.getString("url")
+                        val eventUrl = responseObj.getString("url")
 
-                        events.add(Event(name, dateTime, image, description, price, url))
+                        events.add(Event(name, dateTime, image, description, price, eventUrl))
                     } catch (e: JSONException){
                         e.printStackTrace()
                     }
