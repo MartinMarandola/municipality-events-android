@@ -20,12 +20,12 @@ object EventTranslator {
         val result = Event.Builder()
             .id(event.getString("id"))
             .name(event.getString("eventName"))
-            .price(BigDecimal(event.getString("price")))
             .dateTime(this.parseDateTime(event.getString("eventDateTime")))
             .description(event.getString("eventDescription"))
 
         if (event.optString("image").isNotEmpty()) result.imageUrl(event.getString("image"))
         if (event.optString("url").isNotEmpty()) result.url(event.getString("url"))
+        if (event.optString("price").isNotEmpty()) result.price(BigDecimal(event.getString("price")))
 
         return result.build()
     }

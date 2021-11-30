@@ -11,6 +11,7 @@ import com.ar.municipalityevents.databinding.ActivityProfileEventBinding
 import com.ar.municipalityevents.dto.Event
 import com.ar.municipalityevents.utils.DateUtils
 import com.squareup.picasso.Picasso
+import java.math.BigDecimal
 import java.util.*
 
 class ProfileEventActivity : AppCompatActivity() {
@@ -46,10 +47,13 @@ class ProfileEventActivity : AppCompatActivity() {
     private fun render(event: Event){
         val date = event.dateTime?.let { DateUtils.getDate(it)}
         val time = event.dateTime?.let { DateUtils.getTime(it) }
+
         binding.eventName.text = event.name
         binding.eventDate.text = String.format("%s %shs", date, time)
         binding.eventDescription.text = event.description
-        binding.eventPrice.text = String.format("Valor $%s",event.price.toString())
+        if(event.price != null &&  !BigDecimal.ZERO.equals(event.price)) {
+            binding.eventPrice.text = String.format("Valor $%s", event.price.toString())
+        }
         Picasso.get().load(event.imageUrl).into(binding.imageView)
     }
 
