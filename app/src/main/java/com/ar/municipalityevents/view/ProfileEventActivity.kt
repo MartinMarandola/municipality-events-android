@@ -1,4 +1,4 @@
-package com.ar.municipalityevents
+package com.ar.municipalityevents.view
 
 import android.content.Intent
 import android.net.Uri
@@ -9,7 +9,9 @@ import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import com.ar.municipalityevents.databinding.ActivityProfileEventBinding
 import com.ar.municipalityevents.dto.Event
+import com.ar.municipalityevents.utils.DateUtils
 import com.squareup.picasso.Picasso
+import java.util.*
 
 class ProfileEventActivity : AppCompatActivity() {
 
@@ -42,8 +44,10 @@ class ProfileEventActivity : AppCompatActivity() {
 
     @RequiresApi(Build.VERSION_CODES.O)
     private fun render(event: Event){
+        val date = event.dateTime?.let { DateUtils.getDate(it)}
+        val time = event.dateTime?.let { DateUtils.getTime(it) }
         binding.eventName.text = event.name
-        binding.eventDate.text = String.format("%s %shs", event.dateTime?.toLocalDate(), event.dateTime?.toLocalTime())
+        binding.eventDate.text = String.format("%s %shs", date, time)
         binding.eventDescription.text = event.description
         binding.eventPrice.text = String.format("Valor $%s",event.price.toString())
         Picasso.get().load(event.imageUrl).into(binding.imageView)

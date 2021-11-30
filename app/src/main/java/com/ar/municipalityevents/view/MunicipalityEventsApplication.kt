@@ -1,4 +1,4 @@
-package com.ar.municipalityevents
+package com.ar.municipalityevents.view
 
 import android.app.Application
 

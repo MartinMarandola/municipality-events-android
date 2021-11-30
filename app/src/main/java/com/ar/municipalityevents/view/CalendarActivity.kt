@@ -1,4 +1,4 @@
-package com.ar.municipalityevents
+package com.ar.municipalityevents.view
 
 import android.os.Build
 import android.os.Bundle
@@ -8,9 +8,12 @@ import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.ar.municipalityevents.R
 import com.ar.municipalityevents.adapter.EventAdapter
 import com.ar.municipalityevents.dto.Event
 import com.ar.municipalityevents.service.calendar.CalendarService
+import com.ar.municipalityevents.utils.DateUtils
+import java.time.LocalDate
 import java.util.*
 
 class CalendarActivity : AppCompatActivity() {
@@ -45,7 +48,8 @@ class CalendarActivity : AppCompatActivity() {
     private fun getEventsAboutDaySelected() {
         calendar.setOnDateChangeListener { view, year, month, dayOfMonth ->
             if (!this.eventDataList.isNullOrEmpty()) this.eventDataList = arrayListOf()
-            service.getApiData(month.plus(1).toString(), year.toString(), dayOfMonth.toString())
+            val date = DateUtils.convertToLocalDate(year, month, dayOfMonth)
+            service.getApiData(date)
         }
     }
 
