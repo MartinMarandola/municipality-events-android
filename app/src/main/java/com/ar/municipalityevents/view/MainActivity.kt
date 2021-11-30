@@ -1,4 +1,4 @@
-package com.ar.municipalityevents
+package com.ar.municipalityevents.view
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
@@ -6,6 +6,7 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
+import com.ar.municipalityevents.R
 import com.ar.municipalityevents.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {

@@ -7,7 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
-import com.ar.municipalityevents.ProfileEventActivity
+import com.ar.municipalityevents.view.ProfileEventActivity
 import com.ar.municipalityevents.R
 import com.ar.municipalityevents.databinding.ItemEventBinding
 import com.ar.municipalityevents.dto.Event

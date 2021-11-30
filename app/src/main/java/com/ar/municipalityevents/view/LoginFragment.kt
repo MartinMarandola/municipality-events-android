@@ -1,4 +1,4 @@
-package com.ar.municipalityevents
+package com.ar.municipalityevents.view
 
 import android.content.Context
 import android.os.Bundle
@@ -10,7 +10,8 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.ar.municipalityevents.databinding.FragmentLoginBinding
 import android.content.Intent
-import com.ar.municipalityevents.MunicipalityEventsApplication.Companion.prefs
+import com.ar.municipalityevents.R
+import com.ar.municipalityevents.view.MunicipalityEventsApplication.Companion.prefs
 import com.ar.municipalityevents.service.login.LoginService
 
 

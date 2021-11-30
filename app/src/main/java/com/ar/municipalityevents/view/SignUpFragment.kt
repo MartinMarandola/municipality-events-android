@@ -1,7 +1,6 @@
-package com.ar.municipalityevents
+package com.ar.municipalityevents.view
 
 import android.content.Context
-import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -11,11 +10,11 @@ import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import com.ar.municipalityevents.R
 import com.ar.municipalityevents.databinding.FragmentSignupBinding
 import com.ar.municipalityevents.service.register.SignUpService
 import com.ar.municipalityevents.translator.SignUpTranslator
 import java.time.LocalDate
-import java.time.ZonedDateTime
 
 /**
  * A simple [Fragment] subclass as the second destination in the navigation.

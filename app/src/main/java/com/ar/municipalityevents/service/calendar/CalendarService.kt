@@ -7,12 +7,16 @@ import com.android.volley.DefaultRetryPolicy
 import com.android.volley.RequestQueue
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
-import com.ar.municipalityevents.CalendarActivity
+import com.ar.municipalityevents.view.CalendarActivity
 import com.ar.municipalityevents.dto.Event
 import com.ar.municipalityevents.translator.EventTranslator
+import com.ar.municipalityevents.utils.DateUtils
 import org.json.JSONException
 import org.json.JSONObject
+import java.time.LocalDate
 import java.time.ZonedDateTime
+import java.util.*
+import kotlin.collections.ArrayList
 
 class CalendarService {
 
@@ -26,14 +30,13 @@ class CalendarService {
 
     @RequiresApi(Build.VERSION_CODES.O)
      fun setEventsAboutToday() {
-        val today = ZonedDateTime.now()
-        this.getApiData(today.dayOfMonth.toString(), today.monthValue.toString(), today.year.toString())
+        this.getApiData(DateUtils.dateNow())
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
-    fun getApiData(dayOfMonth: String, month: String, year: String) {
+    fun getApiData(date: LocalDate) {
         queue = Volley.newRequestQueue(view as Context)
-        val getEventsUrl: String = getFormat(dayOfMonth, month, year)
+        val getEventsUrl: String = getFormat(date)
         val request = JsonObjectRequest(
             getEventsUrl,
             { response: JSONObject? ->
@@ -68,7 +71,11 @@ class CalendarService {
         return eventDataList
     }
 
-    private fun getFormat(day: String, month: String, year: String): String {
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun getFormat(date: LocalDate): String {
+        val day = DateUtils.getNumberString(date.dayOfMonth)
+        val month = DateUtils.getNumberString(date.monthValue)
+        val year = date.year.toString()
         return String.format("%s?year=%s&month=%s&day=%s", url, year, month, day)
     }
 }

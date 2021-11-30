@@ -7,7 +7,7 @@ import com.android.volley.DefaultRetryPolicy
 import com.android.volley.Request
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
-import com.ar.municipalityevents.SignUpFragment
+import com.ar.municipalityevents.view.SignUpFragment
 import com.ar.municipalityevents.dto.SignUp
 import com.ar.municipalityevents.translator.SignUpTranslator
 import org.json.JSONException
