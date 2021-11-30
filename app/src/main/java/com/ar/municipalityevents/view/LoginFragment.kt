@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.ar.municipalityevents.databinding.FragmentLoginBinding
 import android.content.Intent
+import android.graphics.Color
 import com.ar.municipalityevents.R
 import com.ar.municipalityevents.view.MunicipalityEventsApplication.Companion.prefs
 import com.ar.municipalityevents.service.login.LoginService
@@ -58,11 +59,14 @@ class LoginFragment : Fragment() {
         if(service.checkEmptyFields(email, password))
             this.showMessage("Uno o ambos campos son vacios")
         else
+            showProgressBar()
             service.signInWithEmailAndPassword(email, password)
+
     }
 
     fun navigateToCalendar() {
         startActivity(Intent(activity as Context, CalendarActivity::class.java))
+        hideProgressBar()
     }
 
     private fun navigateToRegister() {
@@ -76,11 +80,18 @@ class LoginFragment : Fragment() {
     }
 
     fun showProgressBar() {
-        binding.progressBarSignIn.visibility = View.VISIBLE
+        binding.circularProgressBar.visibility = View.VISIBLE
+        binding.circularProgressBar.apply {
+            progressMax = 100f
+            setProgressWithAnimation(50f, 1000)
+            progressBarWidth = 5f
+            backgroundProgressBarWidth = 7f
+            progressBarColor = Color.GREEN
+        }
     }
 
     fun hideProgressBar() {
-        binding.progressBarSignIn.visibility = View.GONE
+        binding.circularProgressBar.visibility = View.GONE
     }
 
     fun saveToken(token: String) {
