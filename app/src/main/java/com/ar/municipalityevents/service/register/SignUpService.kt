@@ -57,7 +57,7 @@ class SignUpService{
             Request.Method.POST, postUrl, postData,
             { response ->
                 view?.saveToken(response.getString("token"))
-                view?.navigateToLogin()
+                view?.navigateToCalendar()
             }
         ) { error ->
             error.printStackTrace()

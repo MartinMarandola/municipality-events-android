@@ -1,6 +1,7 @@
 package com.ar.municipalityevents.view
 
 import android.content.Context
+import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -58,7 +59,7 @@ class SignUpFragment : Fragment(){
 
     @RequiresApi(Build.VERSION_CODES.O)
     private fun onDateSelected(day: Int, month: Int, year: Int){
-        return binding.date.setText(LocalDate.of(year, month, day).toString())
+        return binding.date.setText(LocalDate.of(year, month + 1, day).toString())
     }
 
      private fun signUp() {
@@ -98,8 +99,8 @@ class SignUpFragment : Fragment(){
         _binding = null
     }
 
-    fun navigateToLogin() {
-        findNavController().navigate(R.id.action_SignUpFragment_to_LoginFragment)
+    fun navigateToCalendar() {
+        startActivity(Intent(activity as Context, CalendarActivity::class.java))
     }
 
     fun showMessage(msg: String) {
