@@ -7,33 +7,36 @@ import com.android.volley.DefaultRetryPolicy
 import com.android.volley.Request
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
+import com.ar.municipalityevents.SignUpFragment
+import com.ar.municipalityevents.service.login.LoginService
 import org.json.JSONException
 import org.json.JSONObject
 
-class SignUpService : SignUpContract.Service{
+class SignUpService{
 
-    var view: SignUpContract.View? = null
+    private var view: SignUpFragment? = null
+    private lateinit var loginService: LoginService
 
-    override fun attachView(view: SignUpContract.View) {
+    fun attachView(view: SignUpFragment) {
        this.view = view
     }
 
-    override fun checkEmail(email: EditText): Boolean {
+    fun checkEmail(email: EditText): Boolean {
         val stringMail: CharSequence = email.text.toString()
         return stringMail.isEmpty() && !Patterns.EMAIL_ADDRESS.matcher(stringMail).matches()
     }
 
-    override fun checkLength(str: EditText): Boolean {
+    fun checkLength(str: EditText): Boolean {
         val min = 6
         val max = 20
         return str.length() < min || str.length() > max
     }
 
-    override fun checkString(str: String): Boolean {
+    fun checkString(str: String): Boolean {
         return str.isEmpty()
     }
 
-    override fun signUp(
+    fun signUp(
         email: String,
         password: String,
         name: String,
@@ -66,7 +69,8 @@ class SignUpService : SignUpContract.Service{
             Request.Method.POST, postUrl, postData,
             { response ->
                 view?.saveToken(response.getString("token"))
-                view?.navigateToCalendar() }
+                loginService.signInWithEmailAndPassword(email, password, context);
+            }
         ) { error ->
             error.printStackTrace()
             view?.showMessage("Error")

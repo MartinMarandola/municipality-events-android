@@ -2,9 +2,10 @@ package com.ar.municipalityevents
 
 import android.content.Intent
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.View
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import com.ar.municipalityevents.databinding.ActivityProfileEventBinding
 import com.ar.municipalityevents.dto.Event
@@ -15,6 +16,7 @@ class ProfileEventActivity : AppCompatActivity() {
     private lateinit var binding: ActivityProfileEventBinding
 
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityProfileEventBinding.inflate(layoutInflater)
@@ -37,12 +39,13 @@ class ProfileEventActivity : AppCompatActivity() {
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     private fun render(event: Event){
         binding.eventName.text = event.name
-        binding.eventDate.text = "${event.dateTime}hs."
+        binding.eventDate.text = String.format("%shs", event.dateTime)
         binding.eventDescription.text = event.description
-        binding.eventPrice.text = "$${event.price}"
-        Picasso.get().load(event.image).into(binding.imageView)
+        binding.eventPrice.text = event.price.toString()
+        Picasso.get().load(event.imageUrl).into(binding.imageView)
     }
 
 }

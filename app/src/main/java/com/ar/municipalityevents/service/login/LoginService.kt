@@ -5,18 +5,19 @@ import com.android.volley.DefaultRetryPolicy
 import com.android.volley.Request
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
+import com.ar.municipalityevents.LoginFragment
 import org.json.JSONException
 import org.json.JSONObject
 
-class LoginService() : LoginContract.Service{
+class LoginService{
 
-    var view: LoginContract.View? = null
+    private var view: LoginFragment? = null
 
-    override fun attachView(view: LoginContract.View) {
+    fun attachView(view: LoginFragment) {
         this.view = view
     }
 
-    override fun signInWithEmailAndPassword(email: String, password: String, context: Context) {
+    fun signInWithEmailAndPassword(email: String, password: String, context: Context) {
         view?.showProgressBar()
         this.loginUser(email, password, context)
         if(view!= null){
@@ -25,7 +26,7 @@ class LoginService() : LoginContract.Service{
         }
     }
 
-    override fun checkEmptyFields(email: String, password: String): Boolean{
+    fun checkEmptyFields(email: String, password: String): Boolean{
         return email.isEmpty() || password.isEmpty()
     }
 
