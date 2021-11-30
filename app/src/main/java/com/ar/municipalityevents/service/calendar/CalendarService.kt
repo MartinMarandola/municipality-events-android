@@ -18,13 +18,10 @@ class CalendarService {
 
     private val url = "http://10.0.2.2:3000/events"
     private var view: CalendarActivity? = null
-    private var queue: RequestQueue
+    private lateinit var queue: RequestQueue
 
     fun attachView(view: CalendarActivity) {
         this.view = view
-    }
-    init {
-        queue = Volley.newRequestQueue(view as Context)
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -35,6 +32,7 @@ class CalendarService {
 
     @RequiresApi(Build.VERSION_CODES.O)
     fun getApiData(month: String, year: String, dayOfMonth: Int) {
+        queue = Volley.newRequestQueue(view as Context)
         val getEventsUrl: String = getFormat(month, year)
         val request = JsonObjectRequest(
             getEventsUrl,
