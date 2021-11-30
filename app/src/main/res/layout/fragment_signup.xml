@@ -129,5 +129,19 @@
         android:text="@string/signup"
         android:textColor="#03a9f4" />
 
+    <ProgressBar
+        android:id="@+id/progressBar_signUp"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/password"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="182dp"
+        android:layout_marginTop="28dp"
+        android:layout_marginEnd="181dp"
+        android:visibility="gone"
+        android:indeterminate="true" />
+
 
 </LinearLayout>

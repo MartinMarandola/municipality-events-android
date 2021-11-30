@@ -93,6 +93,8 @@ class SignUpFragment : Fragment(){
         }
 
         service.signUp(SignUpTranslator.toDto(email, password, name, surname, country, date))
+
+         showProgressBar()
     }
 
     override fun onDestroyView() {
@@ -102,6 +104,7 @@ class SignUpFragment : Fragment(){
 
     fun navigateToCalendar() {
         startActivity(Intent(activity as Context, CalendarActivity::class.java))
+        hideProgressBar()
     }
 
     fun showMessage(msg: String) {
@@ -110,5 +113,13 @@ class SignUpFragment : Fragment(){
 
     fun saveToken(token: String) {
         MunicipalityEventsApplication.prefs.saveToken(token)
+    }
+
+    fun showProgressBar() {
+        binding.progressBarSignUp.visibility = View.VISIBLE
+    }
+
+    fun hideProgressBar() {
+        binding.progressBarSignUp.visibility = View.GONE
     }
 }
