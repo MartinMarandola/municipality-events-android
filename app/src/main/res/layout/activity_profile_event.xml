@@ -11,11 +11,11 @@
         android:layout_width="407dp"
         android:layout_height="194dp"
         android:layout_marginTop="140dp"
+        android:src="@drawable/splashlogo"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintHorizontal_bias="0.16"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:src="@drawable/splashlogo" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/eventName"
@@ -31,41 +31,42 @@
 
     <TextView
         android:id="@+id/eventDate"
-        android:layout_width="245dp"
-        android:layout_height="38dp"
+        android:layout_width="257dp"
+        android:layout_height="35dp"
         android:layout_marginTop="26dp"
         android:layout_marginBottom="14dp"
-        tools:text="03/05/21, 20:00hs"
         android:textSize="22sp"
         app:layout_constraintBottom_toTopOf="@+id/imageView"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.065"
+        app:layout_constraintHorizontal_bias="0.01"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/eventName"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintVertical_bias="1.0"
+        tools:text="03/05/21, 20:00hs" />
 
     <TextView
         android:id="@+id/eventPrice"
-        android:layout_width="123dp"
-        android:layout_height="39dp"
+        android:layout_width="180dp"
+        android:layout_height="27dp"
         android:layout_marginTop="26dp"
-        android:layout_marginBottom="14dp"
         android:layout_marginEnd="15dp"
+        android:layout_marginBottom="14dp"
         android:paddingStart="20dp"
         android:paddingEnd="20dp"
-        tools:text="$250"
-        android:textSize="25sp"
-        app:layout_constraintBottom_toTopOf="@+id/imageView"
+        android:textAlignment="viewStart"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toTopOf="@+id/buttonUrl"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/eventName"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintTop_toBottomOf="@id/scrollView"
+        app:layout_constraintVertical_bias="1.0"
+        tools:text="$250" />
 
     <ScrollView
         android:id="@+id/scrollView"
-        android:layout_width="378dp"
-        android:layout_height="170dp"
+        android:layout_width="403dp"
+        android:layout_height="141dp"
         android:layout_marginTop="20dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -75,8 +76,8 @@
             android:id="@+id/eventDescription"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            tools:text="En esta parte se va a encontrar la descripcion del evento el cual usted selecciono anteriormente"
-            android:textSize="25sp" />
+            android:textSize="20sp"
+            tools:text="En esta parte se va a encontrar la descripcion del evento el cual usted selecciono anteriormente" />
     </ScrollView>
 
     <Button

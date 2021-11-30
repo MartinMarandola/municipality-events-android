@@ -5,31 +5,35 @@ import com.android.volley.DefaultRetryPolicy
 import com.android.volley.Request
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
+import com.ar.municipalityevents.LoginFragment
 import org.json.JSONException
 import org.json.JSONObject
 
-class LoginService() : LoginContract.Service{
+class LoginService{
 
-    var view: LoginContract.View? = null
+    private var view: LoginFragment? = null
+    private var context: Context? = null
 
-    override fun attachView(view: LoginContract.View) {
+    fun attachView(view: LoginFragment, context: Context) {
         this.view = view
+        this.context = context
     }
 
-    override fun signInWithEmailAndPassword(email: String, password: String, context: Context) {
+
+    fun signInWithEmailAndPassword(email: String, password: String) {
         view?.showProgressBar()
-        this.loginUser(email, password, context)
+        this.loginUser(email, password)
         if(view!= null){
           //  view?.hideProgressBar()
 
         }
     }
 
-    override fun checkEmptyFields(email: String, password: String): Boolean{
+    fun checkEmptyFields(email: String, password: String): Boolean{
         return email.isEmpty() || password.isEmpty()
     }
 
-    private fun loginUser(email: String, password: String, context: Context) {
+    private fun loginUser(email: String, password: String) {
         val postUrl = "http://10.0.2.2:3000/users/login"
         val requestQueue = Volley.newRequestQueue(context)
         val postData = JSONObject()

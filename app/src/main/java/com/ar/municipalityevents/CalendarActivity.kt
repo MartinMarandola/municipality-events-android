@@ -1,104 +1,57 @@
 package com.ar.municipalityevents
 
+import android.os.Build
 import android.os.Bundle
+import android.widget.CalendarView
+import android.widget.LinearLayout
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.android.volley.DefaultRetryPolicy
-import com.android.volley.Request
-import com.android.volley.toolbox.JsonObjectRequest
-import com.android.volley.toolbox.Volley
-import com.ar.municipalityevents.databinding.ActivityCalendarBinding
+import androidx.recyclerview.widget.RecyclerView
+import com.ar.municipalityevents.adapter.EventAdapter
 import com.ar.municipalityevents.dto.Event
-import org.json.JSONException
-import java.text.SimpleDateFormat
+import com.ar.municipalityevents.service.calendar.CalendarService
 import java.util.*
 
 class CalendarActivity : AppCompatActivity() {
 
-    private lateinit var binding: ActivityCalendarBinding
-    private lateinit var query: String
+    private lateinit var service: CalendarService
     private lateinit var adapter: EventAdapter
-    private val events = mutableListOf<Event>()
+    private lateinit var linearLayout: LinearLayout
+    private lateinit var calendar: CalendarView
+    private lateinit var recycler: RecyclerView
+    private lateinit var eventDataList: MutableList<Event>
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityCalendarBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+        setContentView(R.layout.activity_calendar)
+        this.init()
+        service.setEventsAboutToday()
+        this.getEventsAboutDaySelected()
+    }
 
-        initRecyclerView()
+    private fun init() {
+        service = CalendarService()
+        service.attachView(this)
+        linearLayout = findViewById(R.id.calendar)
+        calendar = linearLayout.findViewById(R.id.calendarView)
+        recycler = linearLayout.findViewById(R.id.rvEvent)
+        eventDataList = ArrayList()
+        recycler.layoutManager = LinearLayoutManager(this)
+    }
 
-        val dateFormat = SimpleDateFormat("yyyy/MM/dd")
-        val currentDate = dateFormat.format(Date())
-        query = "year=${currentDate.slice(0..3)}&month=${currentDate.slice(5..6)}&day=${currentDate.slice(8..9)}"
-        getEvents(query)
-
-        binding.calendarView.setOnDateChangeListener { calendarView, year, month, day ->
-            query = if(day < 10 && month+1 < 10){
-                "year=$year&month=0${month+1}&day=0$day"
-            }else if (day < 10){
-                "year=$year&month=${month+1}&day=0$day"
-            }else if (month+1 < 10){
-                "year=$year&month=0${month+1}&day=$day"
-            }else{
-                "year=$year&month=${month+1}&day=$day"
-            }
-            getEvents(query)
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun getEventsAboutDaySelected() {
+        calendar.setOnDateChangeListener { view, year, month, dayOfMonth ->
+            if (!this.eventDataList.isNullOrEmpty()) this.eventDataList = arrayListOf()
+            service.getApiData(month.plus(1).toString(), year.toString(), dayOfMonth.toString())
         }
     }
 
-    private fun getEvents(query: String){
-        val url = "http://10.0.2.2:3000/events?$query"
-        val requestQueue = Volley.newRequestQueue(this)
-
-
-        val jsonObjectRequest = JsonObjectRequest(
-            Request.Method.GET, url, null,
-            { response ->
-                val jsonArray = response.getJSONArray("events")
-                events.clear()
-                for(i in 0 until jsonArray.length()){
-                    try {
-                        val responseObj = jsonArray.getJSONObject(i)
-
-                        val name = responseObj.getString("eventName")
-                        val dateTime = getDateTime(responseObj.getString("eventDateTime"))
-                        val image = responseObj.getString("image")
-                        val description = responseObj.getString("eventDescription")
-                        val price = responseObj.getString("price").toBigDecimal()
-                        val eventUrl = responseObj.getString("url")
-
-                        events.add(Event(name, dateTime, image, description, price, eventUrl))
-                    } catch (e: JSONException){
-                        e.printStackTrace()
-                    }
-                }
-                adapter.notifyDataSetChanged()
-            }
-        ) { error -> error.printStackTrace() }
-
-        jsonObjectRequest.retryPolicy = DefaultRetryPolicy(
-            0,
-            DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
-            DefaultRetryPolicy.DEFAULT_BACKOFF_MULT
-        )
-
-        requestQueue.add(jsonObjectRequest)
+    fun setAdapter(eventList: MutableList<Event>){
+        eventDataList = eventList
+        adapter = EventAdapter(eventDataList)
+        recycler.adapter = adapter
     }
-
-    private fun getDateTime(s: String): String {
-        return try {
-            val sdf = SimpleDateFormat("dd/MM/yyyy, HH:mm")
-            val netDate = Date(s.toLong())
-            sdf.format(netDate)
-        } catch (e: Exception) {
-            e.toString()
-        }
-    }
-
-    private fun initRecyclerView(){
-        adapter = EventAdapter(events)
-        binding.rvEvent.layoutManager = LinearLayoutManager(this)
-        binding.rvEvent.adapter = adapter
-    }
-    
 }

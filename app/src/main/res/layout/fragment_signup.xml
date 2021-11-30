@@ -123,11 +123,11 @@
         android:id="@+id/button_signup"
         android:layout_width="150dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
         android:layout_marginStart="130dp"
-        android:text="@string/signup"
+        android:layout_marginTop="15dp"
         android:backgroundTint="@color/white"
-        android:textColor="#03a9f4"/>
+        android:text="@string/signup"
+        android:textColor="#03a9f4" />
 
 
 </LinearLayout>
