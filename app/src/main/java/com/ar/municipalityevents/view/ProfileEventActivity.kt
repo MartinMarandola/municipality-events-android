@@ -5,8 +5,10 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.view.View
+import android.widget.ImageView
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
+import com.ar.municipalityevents.R
 import com.ar.municipalityevents.databinding.ActivityProfileEventBinding
 import com.ar.municipalityevents.dto.Event
 import com.ar.municipalityevents.utils.DateUtils
@@ -54,7 +56,12 @@ class ProfileEventActivity : AppCompatActivity() {
         if(event.price != null &&  !BigDecimal.ZERO.equals(event.price)) {
             binding.eventPrice.text = String.format("Valor $%s", event.price.toString())
         }
-        Picasso.get().load(event.imageUrl).into(binding.imageView)
+
+        if(!event.imageUrl.isNullOrBlank()){
+            Picasso.get().load(event.imageUrl).into(binding.imageView)
+        } else {
+            Picasso.get().load(R.drawable.splashlogo).into(binding.imageView)
+        }
     }
 
 }
