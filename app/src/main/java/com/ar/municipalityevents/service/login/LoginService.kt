@@ -23,10 +23,7 @@ class LoginService{
     fun signInWithEmailAndPassword(email: String, password: String) {
         view?.showProgressBar()
         this.loginUser(email, password)
-        if(view!= null){
-          //  view?.hideProgressBar()
 
-        }
     }
 
     fun checkEmptyFields(email: String, password: String): Boolean{
@@ -48,6 +45,7 @@ class LoginService{
             Request.Method.POST, postUrl, postData,
             { response ->
                 view?.saveToken(response.getString("token"))
+                view?.hideProgressBar()
                 view?.navigateToCalendar()
             }
         ) { error ->

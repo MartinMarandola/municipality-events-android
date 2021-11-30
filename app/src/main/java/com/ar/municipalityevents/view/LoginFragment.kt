@@ -11,7 +11,7 @@ import androidx.navigation.fragment.findNavController
 import com.ar.municipalityevents.databinding.FragmentLoginBinding
 import android.content.Intent
 import com.ar.municipalityevents.R
-import com.ar.municipalityevents.view.MunicipalityEventsApplication.Companion.prefs
+import com.ar.municipalityevents.config.MunicipalityEventsApplication.Companion.prefs
 import com.ar.municipalityevents.service.login.LoginService
 
 
