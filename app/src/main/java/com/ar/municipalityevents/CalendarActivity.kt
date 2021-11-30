@@ -45,7 +45,7 @@ class CalendarActivity : AppCompatActivity() {
     private fun getEventsAboutDaySelected() {
         calendar.setOnDateChangeListener { view, year, month, dayOfMonth ->
             if (!this.eventDataList.isNullOrEmpty()) this.eventDataList = arrayListOf()
-            service.getApiData(month.plus(1).toString(), year.toString(), dayOfMonth)
+            service.getApiData(month.plus(1).toString(), year.toString(), dayOfMonth.toString())
         }
     }
 

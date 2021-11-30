@@ -27,18 +27,18 @@ class CalendarService {
     @RequiresApi(Build.VERSION_CODES.O)
      fun setEventsAboutToday() {
         val today = ZonedDateTime.now()
-        this.getApiData(today.monthValue.toString(), today.year.toString(), today.dayOfMonth)
+        this.getApiData(today.dayOfMonth.toString(), today.monthValue.toString(), today.year.toString())
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
-    fun getApiData(month: String, year: String, dayOfMonth: Int) {
+    fun getApiData(dayOfMonth: String, month: String, year: String) {
         queue = Volley.newRequestQueue(view as Context)
-        val getEventsUrl: String = getFormat(month, year)
+        val getEventsUrl: String = getFormat(dayOfMonth, month, year)
         val request = JsonObjectRequest(
             getEventsUrl,
             { response: JSONObject? ->
                 if (response!!.length() > 0) {
-                    val resultList = this.setEvents(response, dayOfMonth)
+                    val resultList = this.setEvents(response)
                     view?.setAdapter(resultList.toMutableList())
                 }
             }
@@ -53,18 +53,14 @@ class CalendarService {
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
-    private fun setEvents(apiResponse: JSONObject, dayOfMonth: Int): List<Event> {
+    private fun setEvents(apiResponse: JSONObject): List<Event> {
         val resultList = apiResponse.getJSONArray("events")
         val eventDataList: MutableList<Event> = ArrayList()
         for (i in 0 until resultList.length()) {
             try {
                 val e = resultList.getJSONObject(i)
                 val event = EventTranslator.toDto(e)
-
-                if (event.dateTime?.dayOfMonth == dayOfMonth) {
-                    eventDataList.add(event)
-
-                }
+                eventDataList.add(event)
             } catch (e: JSONException) {
                 e.printStackTrace()
             }
@@ -72,7 +68,7 @@ class CalendarService {
         return eventDataList
     }
 
-    private fun getFormat(month: String, year: String): String {
-        return String.format("$url?year=%s&month=%s", year, month)
+    private fun getFormat(day: String, month: String, year: String): String {
+        return String.format("%s?year=%s&month=%s&day=%s", url, year, month, day)
     }
 }
