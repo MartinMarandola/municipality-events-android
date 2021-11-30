@@ -42,6 +42,8 @@ class CalendarService {
             { response: JSONObject? ->
                 if (response!!.length() > 0) {
                     val resultList = this.setEvents(response)
+                    if(resultList.isEmpty())
+                        view?.showMessage("No hay eventos")
                     view?.setAdapter(resultList.toMutableList())
                 }
             }

@@ -1,4 +1,4 @@
-package com.ar.municipalityevents.view
+package com.ar.municipalityevents.config
 
 import android.content.Context
 

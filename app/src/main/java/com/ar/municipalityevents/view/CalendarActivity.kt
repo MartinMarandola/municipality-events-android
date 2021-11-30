@@ -1,9 +1,11 @@
 package com.ar.municipalityevents.view
 
+import android.content.Context
 import android.os.Build
 import android.os.Bundle
 import android.widget.CalendarView
 import android.widget.LinearLayout
+import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -57,5 +59,9 @@ class CalendarActivity : AppCompatActivity() {
         eventDataList = eventList
         adapter = EventAdapter(eventDataList)
         recycler.adapter = adapter
+    }
+
+    fun showMessage(msg: String) {
+        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
     }
 }

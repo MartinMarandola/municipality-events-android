@@ -11,6 +11,7 @@ import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.ar.municipalityevents.R
+import com.ar.municipalityevents.config.MunicipalityEventsApplication
 import com.ar.municipalityevents.databinding.FragmentSignupBinding
 import com.ar.municipalityevents.service.register.SignUpService
 import com.ar.municipalityevents.translator.SignUpTranslator
