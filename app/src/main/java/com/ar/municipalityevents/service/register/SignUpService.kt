@@ -8,17 +8,19 @@ import com.android.volley.Request
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
 import com.ar.municipalityevents.SignUpFragment
-import com.ar.municipalityevents.service.login.LoginService
+import com.ar.municipalityevents.dto.SignUp
+import com.ar.municipalityevents.translator.SignUpTranslator
 import org.json.JSONException
 import org.json.JSONObject
 
 class SignUpService{
 
     private var view: SignUpFragment? = null
-    private lateinit var loginService: LoginService
+    private var context: Context? = null
 
-    fun attachView(view: SignUpFragment) {
+    fun attachView(view: SignUpFragment, context: Context) {
        this.view = view
+        this.context = context
     }
 
     fun checkEmail(email: EditText): Boolean {
@@ -36,40 +38,26 @@ class SignUpService{
         return str.isEmpty()
     }
 
-    fun signUp(
-        email: String,
-        password: String,
-        name: String,
-        surname: String,
-        date: String,
-        country: String,
-        context: Context
-    ) {
-        this.signupUser(email, password, name, surname, date, country, context)
+    fun signUp(signUpDto: SignUp) {
+        this.signupUser(signUpDto)
     }
 
 
-    private fun signupUser(email: String, password: String, name: String , surname: String, date: String,
-                           country: String, context: Context) {
+    private fun signupUser(signUpDto: SignUp) {
         val postUrl = "http://10.0.2.2:3000/users/signup"
         val requestQueue = Volley.newRequestQueue(context)
-        val postData = JSONObject()
+        var postData = JSONObject()
         try {
-            postData.put("email", email )
-            postData.put("password", password)
-            postData.put("name", name)
-            postData.put("surname", surname)
-            postData.put("date", date)
-            postData.put("country", country)
+            postData = SignUpTranslator.toRequest(signUpDto)
         } catch (e: JSONException) {
-            e.printStackTrace()
+            view?.showMessage("Ocurrió un error. Intente nuevamente.")
         }
 
         val jsonObjectRequest = JsonObjectRequest(
             Request.Method.POST, postUrl, postData,
             { response ->
                 view?.saveToken(response.getString("token"))
-                loginService.signInWithEmailAndPassword(email, password, context);
+                view?.navigateToLogin()
             }
         ) { error ->
             error.printStackTrace()

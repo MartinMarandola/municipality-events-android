@@ -31,7 +31,7 @@ class LoginFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         service = LoginService()
-        service.attachView(this)
+        service.attachView(this, activity as Context)
         _binding = FragmentLoginBinding.inflate(inflater, container, false)
         return binding.root
 
@@ -57,7 +57,7 @@ class LoginFragment : Fragment() {
         if(service.checkEmptyFields(email, password))
             this.showMessage("Uno o ambos campos son vacios")
         else
-            service.signInWithEmailAndPassword(email, password, activity as Context)
+            service.signInWithEmailAndPassword(email, password)
     }
 
     fun navigateToCalendar() {

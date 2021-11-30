@@ -26,7 +26,12 @@ class CalendarActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_calendar)
+        this.init()
+        service.setEventsAboutToday()
+        this.getEventsAboutDaySelected()
+    }
 
+    private fun init() {
         service = CalendarService()
         service.attachView(this)
         linearLayout = findViewById(R.id.calendar)
@@ -34,13 +39,6 @@ class CalendarActivity : AppCompatActivity() {
         recycler = linearLayout.findViewById(R.id.rvEvent)
         eventDataList = ArrayList()
         recycler.layoutManager = LinearLayoutManager(this)
-        this.init()
-        service.setEventsAboutToday()
-        this.getEventsAboutDaySelected()
-    }
-
-    private fun init() {
-
     }
 
     @RequiresApi(Build.VERSION_CODES.O)

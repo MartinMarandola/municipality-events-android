@@ -12,14 +12,17 @@ import org.json.JSONObject
 class LoginService{
 
     private var view: LoginFragment? = null
+    private var context: Context? = null
 
-    fun attachView(view: LoginFragment) {
+    fun attachView(view: LoginFragment, context: Context) {
         this.view = view
+        this.context = context
     }
 
-    fun signInWithEmailAndPassword(email: String, password: String, context: Context) {
+
+    fun signInWithEmailAndPassword(email: String, password: String) {
         view?.showProgressBar()
-        this.loginUser(email, password, context)
+        this.loginUser(email, password)
         if(view!= null){
           //  view?.hideProgressBar()
 
@@ -30,7 +33,7 @@ class LoginService{
         return email.isEmpty() || password.isEmpty()
     }
 
-    private fun loginUser(email: String, password: String, context: Context) {
+    private fun loginUser(email: String, password: String) {
         val postUrl = "http://10.0.2.2:3000/users/login"
         val requestQueue = Volley.newRequestQueue(context)
         val postData = JSONObject()

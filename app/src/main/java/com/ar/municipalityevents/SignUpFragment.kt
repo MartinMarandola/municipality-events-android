@@ -10,8 +10,10 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.ar.municipalityevents.databinding.FragmentSignupBinding
 import com.ar.municipalityevents.service.register.SignUpService
+import com.ar.municipalityevents.translator.SignUpTranslator
 import java.time.LocalDate
 import java.time.ZonedDateTime
 
@@ -32,7 +34,7 @@ class SignUpFragment : Fragment(){
         savedInstanceState: Bundle?
     ): View {
         service = SignUpService()
-        service.attachView(this)
+        service.attachView(this, activity as Context)
         _binding = FragmentSignupBinding.inflate(inflater, container, false)
         return binding.root
 
@@ -89,7 +91,7 @@ class SignUpFragment : Fragment(){
             binding.password.error = "La contraseña debe tener entre 6 y 20 caracteres"
         }
 
-        service.signUp(email, password, name, surname, date, country, activity as Context)
+        service.signUp(SignUpTranslator.toDto(email, password, name, surname, country, date))
     }
 
     override fun onDestroyView() {
@@ -97,15 +99,8 @@ class SignUpFragment : Fragment(){
         _binding = null
     }
 
-    fun navigateToCalendar() {
-        startActivity(Intent(activity as Context, CalendarActivity::class.java))
-    }
-    fun showProgress() {
-        TODO("Not yet implemented")
-    }
-
-    fun hideProgress() {
-        TODO("Not yet implemented")
+    fun navigateToLogin() {
+        findNavController().navigate(R.id.action_SignUpFragment_to_LoginFragment)
     }
 
     fun showMessage(msg: String) {

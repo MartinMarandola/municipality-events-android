@@ -26,9 +26,10 @@ class ProfileEventActivity : AppCompatActivity() {
         val event: Event = intent.getSerializableExtra("event") as Event
         render(event)
 
-        if(event.url == "null"){
+        if(event.url.isNullOrBlank()){
             binding.buttonUrl.visibility = View.GONE
         } else {
+            binding.buttonUrl.visibility = View.VISIBLE
             binding.buttonUrl.setOnClickListener {
                 val viewIntent = Intent(
                     "android.intent.action.VIEW",
@@ -42,9 +43,9 @@ class ProfileEventActivity : AppCompatActivity() {
     @RequiresApi(Build.VERSION_CODES.O)
     private fun render(event: Event){
         binding.eventName.text = event.name
-        binding.eventDate.text = String.format("%shs", event.dateTime)
+        binding.eventDate.text = String.format("%s %shs", event.dateTime?.toLocalDate(), event.dateTime?.toLocalTime())
         binding.eventDescription.text = event.description
-        binding.eventPrice.text = event.price.toString()
+        binding.eventPrice.text = String.format("Valor $%s",event.price.toString())
         Picasso.get().load(event.imageUrl).into(binding.imageView)
     }
 
